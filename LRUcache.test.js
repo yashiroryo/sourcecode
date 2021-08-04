@@ -1,4 +1,4 @@
-const input = require('./input');
-test('input function', () => {
-    expect(input("B", "dataA")).toBe("B");
+const LRUcache = require('./LRUcache');
+test('LRUcache', () => {
+    expect(LRUcache("B", "dataA")).toBe("B");
 });
