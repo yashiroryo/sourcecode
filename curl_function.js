@@ -64,6 +64,10 @@ function output_option(args, cnt){
 		console.log("no URL specified!");
 		return 0;
 	}
+	if(args[cnt + 2] == '-v'){
+		cnt += 3;
+		view_header(args, cnt);
+	}
 	//変数に引数を代入
 	file_name = args[cnt];
 	cnt++;
@@ -95,6 +99,12 @@ function X_option(args, cnt){
 	}
 	if(args[cnt + 1] == null){
 		console.log("no URL specified!");
+		return 0;
+	}
+	//-X + -dオプション
+	else if(args[cnt + 1] == '-d'){
+	  cnt += 2;
+		data_option(args, cnt);
 		return 0;
 	}
 	method = args[cnt];
@@ -155,3 +165,5 @@ function command_option(args, cnt){
 	}
 }
 command_option(args, cnt);
+
+
