@@ -1,6 +1,8 @@
 //curlコマンドのクローン(commanderを使用しないバージョン)
 //変数宣言*************************************************************
 const args = process.argv;
+const fetch = require('node-fetch');
+const fs = require("fs");
 let file_name = null;						  //出力するファイルの名前
 //fetchメソッド用オプション
 let method = 'GET';								//デフォルトはget
@@ -18,6 +20,7 @@ function output(file_name, text){
 		console.log("complete file output");
 	});
 }
+
 //リクエスト処理部分****************************************************
 function request(url, method, param, header, output){
 	//fetchでリクエストを送信する
@@ -52,36 +55,70 @@ function request(url, method, param, header, output){
     // エラーはここでまとめて処理
     .catch(err => console.error(err));
 }
+
 //outputオプション処理部分******************************************
 function output_option(args, cnt){
+	//エラー処理部分//エラーの場合は終了
+	//引数なし
+	if(args[cnt] == null){
+		console.log("option -o: requires parameter");
+		return 0;
+	//引数不足
+	if(args[cnt + 1] == null){
+		console.log("no URL specified!");
+		return 0;
+	}
+	//変数に引数を代入
+	file_name = args[cnt];
+	cnt++;
+	url = args[cnt];
+	cnt++;
+	require(url, method, param, header, output);
 }
+
 //view-headerオプション処理部分*************************************
 function view-header(args, cnt){
 }
+
 //Xオプション処理部分***********************************************
 function X-option(args, cnt){
 }
+
 //dataオプション処理部分********************************************
 function data-option(args, cnt){
 }
+
 //コマンドオプション判定部分
 function command_option(args, cnt){
 	if(args[cnt] == '-o'||args[cnt] == '--output'){
-		console.log("-oオプション実装部分");
+		cnt++;	//読み込む引数を1つずらす
+		//エラー処理(あとで記述)
+		output_option(args, cnt);
 	}
 	else if(args[cnt] == '-v'||args[cnt] == '--view-header'){
-		console.log("-vオプション実装部分");
+		cnt++;
+		//エラー処理(あとで実装)
+		view-header(args, cnt);
 	}
 	else if(args[cnt] == '-X'||args[cnt] == '--request'){
-		console.log("-Xオプション実装部分");
+		cnt++;
+		//エラー処理(あとで実装)
+		X-option(args, cnt);
 	}
 	else if(args[cnt] == '-d'||args[cnt] == '--data'){
-		console.log("-dオプション実装部分");
+		cnt++;
+		//エラー処理
+		data-option(args, cnt);
 	}
 	else if(args[cnt] == '-h'||args[cnt] == '--help'){
 		console.log("-hオプション実装部分");
 	}
 	else{
-		console.log("オプション無し実装部分");
+		cnt++;
+		//エラー処理
+		url = args[cnt];
+		request(url, method, param, header, output);
 	}
 }
+
+command_option(args, cnt);
