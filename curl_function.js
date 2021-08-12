@@ -24,7 +24,7 @@ function output_file(file_name, text){
 //リクエスト処理部分****************************************************
 function request(url, method, param, header, output){
 	//fetchでリクエストを送信する
-  fetch(url, {method: method, param: param})
+  fetch(url, {method: method, body: param})
     .then(res => {
       if (!res.ok) {
         // 200 系以外のレスポンスはエラーとして処理
@@ -115,6 +115,10 @@ function data_option(args, cnt){
 		return 0;
 	}
 	param = args[cnt];
+	param = param.split('=');
+	key = param[0]; value = param[1];
+	param = new URLSearchParams();
+	param.append(key, value);
 	cnt++;
 	url = args[cnt];
 	method = 'POST';
@@ -122,7 +126,7 @@ function data_option(args, cnt){
 	cnt++;
 }
 
-//コマンドオプション判定部分
+//コマンドオプション判定部分****************************************
 function command_option(args, cnt){
 	if(args[cnt] == '-o'||args[cnt] == '--output'){
 		cnt++;	//読み込む引数を1つずらす
@@ -130,17 +134,14 @@ function command_option(args, cnt){
 	}
 	else if(args[cnt] == '-v'||args[cnt] == '--view-header'){
 		cnt++;
-		//エラー処理(あとで実装)
 		view_header(args, cnt);
 	}
 	else if(args[cnt] == '-X'||args[cnt] == '--request'){
 		cnt++;
-		//エラー処理(あとで実装)
 		X_option(args, cnt);
 	}
 	else if(args[cnt] == '-d'||args[cnt] == '--data'){
 		cnt++;
-		//エラー処理
 		data_option(args, cnt);
 	}
 	else if(args[cnt] == '-h'||args[cnt] == '--help'){
