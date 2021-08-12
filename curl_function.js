@@ -64,9 +64,9 @@ function output_option(args, cnt){
 		console.log("no URL specified!");
 		return 0;
 	}
+	//-vオプションの組み合わせ
 	if(args[cnt + 2] == '-v'){
-		cnt += 3;
-		view_header(args, cnt);
+		view_header(args, cnt + 3);
 	}
 	//変数に引数を代入
 	file_name = args[cnt];
