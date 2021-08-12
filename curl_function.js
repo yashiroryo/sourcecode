@@ -1,3 +1,6 @@
 const args = process.argv;
-
-console.log(args[2], args[3]);
+let cnt = 2;
+console.log(args[cnt]);
+if(args[cnt] == '-e'||args[cnt] == '--example'){
+	console.log("-e option");
+}
