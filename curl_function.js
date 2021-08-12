@@ -97,7 +97,6 @@ function X_option(args, cnt){
 		console.log("no URL specified!");
 		return 0;
 	}
-	//変数に引数を代入
 	method = args[cnt];
 	cnt++;
 	url = args[cnt];
@@ -107,6 +106,20 @@ function X_option(args, cnt){
 
 //dataオプション処理部分********************************************
 function data_option(args, cnt){
+	if(args[cnt] == null){
+		console.log("option -d: requires parameter");
+		return 0;
+	}
+	if(args[cnt + 1] == null){
+		console.log("no URL specified!");
+		return 0;
+	}
+	param = args[cnt];
+	cnt++;
+	url = args[cnt];
+	method = 'POST';
+	request(url, method, param, header, output);
+	cnt++;
 }
 
 //コマンドオプション判定部分
