@@ -12,7 +12,7 @@ let output = false;    						//データ出力判定用(デフォルトは出力
 let cnt = 2;											//読み取りを開始するコマンドライン引数
 
 //ファイルに出力する処理************************************************
-function output(file_name, text){
+function output_file(file_name, text){
 	//書き込み
 	fs.writeFile(file_name, text, (err) => {
 		if(err)
@@ -38,13 +38,8 @@ function request(url, method, param, header, output){
     })
     //本文
     .then(text => {
-    	//表示とファイルに出力
-    	if(output && header){
-    		output_file(file_name, text);
-    		console.log(text);
-    	}
     	//ファイル出力のみ
-    	else if(output){
+    	if(output){
     		output_file(file_name, text);
     	}
     	//表示のみ
@@ -63,6 +58,7 @@ function output_option(args, cnt){
 	if(args[cnt] == null){
 		console.log("option -o: requires parameter");
 		return 0;
+	}
 	//引数不足
 	if(args[cnt + 1] == null){
 		console.log("no URL specified!");
@@ -72,53 +68,52 @@ function output_option(args, cnt){
 	file_name = args[cnt];
 	cnt++;
 	url = args[cnt];
+	output = true;
+	request(url, method, param, header, output);
 	cnt++;
-	require(url, method, param, header, output);
 }
 
 //view-headerオプション処理部分*************************************
-function view-header(args, cnt){
+function view_header(args, cnt){
 }
 
 //Xオプション処理部分***********************************************
-function X-option(args, cnt){
+function X_option(args, cnt){
 }
 
 //dataオプション処理部分********************************************
-function data-option(args, cnt){
+function data_option(args, cnt){
 }
 
 //コマンドオプション判定部分
 function command_option(args, cnt){
 	if(args[cnt] == '-o'||args[cnt] == '--output'){
 		cnt++;	//読み込む引数を1つずらす
-		//エラー処理(あとで記述)
 		output_option(args, cnt);
 	}
 	else if(args[cnt] == '-v'||args[cnt] == '--view-header'){
 		cnt++;
 		//エラー処理(あとで実装)
-		view-header(args, cnt);
+		view_header(args, cnt);
 	}
 	else if(args[cnt] == '-X'||args[cnt] == '--request'){
 		cnt++;
 		//エラー処理(あとで実装)
-		X-option(args, cnt);
+		X_option(args, cnt);
 	}
 	else if(args[cnt] == '-d'||args[cnt] == '--data'){
 		cnt++;
 		//エラー処理
-		data-option(args, cnt);
+		data_option(args, cnt);
 	}
 	else if(args[cnt] == '-h'||args[cnt] == '--help'){
 		console.log("-hオプション実装部分");
 	}
 	else{
-		cnt++;
 		//エラー処理
 		url = args[cnt];
 		request(url, method, param, header, output);
+		cnt++;
 	}
 }
-
 command_option(args, cnt);
