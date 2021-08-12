@@ -75,6 +75,15 @@ function output_option(args, cnt){
 
 //view-headerオプション処理部分*************************************
 function view_header(args, cnt){
+	//引数チェック
+	if(args[cnt] == null){
+		console.log("no URL specified");
+	}
+	//変数に引数を代入
+	url = args[cnt];
+	header = true;
+	request(url, method, param, header, output);
+	cnt++;
 }
 
 //Xオプション処理部分***********************************************
