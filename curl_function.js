@@ -84,6 +84,10 @@ function view_header(args, cnt){
 		console.log("no URL specified");
 		return 0;
 	}
+	//-oオプションとの組み合わせ
+	if(args[cnt + 1] == '-o'){
+		output_option(args, cnt + 2);
+	}
 	//変数に引数を代入
 	url = args[cnt];
 	header = true;
