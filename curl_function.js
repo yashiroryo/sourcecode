@@ -128,7 +128,9 @@ function data_option(args, cnt){
 		console.log("no URL specified!");
 		return 0;
 	}
+	//URLエンコード
 	param = args[cnt];
+	//=を分割してparamに格納
 	param = param.split('=');
 	key = param[0]; value = param[1];
 	param = new URLSearchParams();
